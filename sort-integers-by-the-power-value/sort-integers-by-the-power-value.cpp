@@ -1,6 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 ​
+bool comp(const pair<int,int> &a, const pair<int,int> &b) 
+{ 
+    return (a.second<b.second); 
+}
+​
 class Solution {
 public:
 ​
@@ -9,23 +14,18 @@ public:
         std::ios::sync_with_stdio(false);
     }
 ​
-    // bool comp(const pair<int,int> &a, const pair<int,int> &b) 
-    // { 
-    //     return (a.second<b.second); 
-    // }
-​
+    unordered_map<int,int>dp;
     int power_val(int x)
     {
-        int ct=0;
-        while(x!=1)
-        {
-            if(x%2==0)
-                x/=2;
-            else
-                x=3*x+1;
-            ct++;
-        }
-        return ct;
+        if(dp[x]||x==1)
+            return dp[x];
+        
+        if(x%2)
+            dp[x]=1+power_val(3*x+1);
+        else
+            dp[x]=1+power_val(x/2);
+          
+        return dp[x];
     }
 ​
     int getKth(int lo, int hi, int k) 
@@ -33,8 +33,7 @@ public:
         vector<pair<int,int>>ans;
         for(int i=lo; i<=hi; i++)
         {
-            int x=power_val(i);
-            ans.push_back({x,i});
+            ans.push_back({power_val(i),i});
         }
         sort(ans.begin(),ans.end());
         return ans[k-1].second;
