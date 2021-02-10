@@ -1,3 +1,4 @@
+[Discussion Post (created on 10/1/2021 at 15:58)](https://leetcode.com/problems/minimum-path-sum/submissions/)  
 <h2>64. Minimum Path Sum</h2><h3>Medium</h3><hr><div><p>Given a <code>m x n</code> <code>grid</code> filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.</p>
 
 <p><strong>Note:</strong> You can only move either down or right at any point in time.</p>
