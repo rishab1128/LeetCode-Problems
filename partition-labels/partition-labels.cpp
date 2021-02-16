@@ -1,31 +1,38 @@
-                x.SS.SS=x.SS.FF;
-            arr.push_back(make_pair(x.SS.FF-1,x.SS.SS-1));
-        }
-        sort(all(arr));
-        arr.push_back(make_pair(1000,1000));
-        // for(auto x: arr)
-        //  cout<<x.FF<<" "<<x.SS<<endl;
-        //cout<<endl<<endl;
-        int start=0,end=arr[0].SS,ans=0;
-        vector<int>res;
-        for(int i=1; i<(int)arr.size(); i++)
-        {
-            if(end<arr[i].FF)
-            {
-                ans=(end-start+1);
-                res.push_back(ans);
-                start=arr[i].FF;
-                end=arr[i].SS;
-            }
-            else if(end>arr[i].FF&&end<arr[i].SS)
-                end=arr[i].SS;
-            else if(end>arr[i].FF&&end>arr[i].SS)
-                continue;
-        }
-        // for(auto x: res)
-        //  cout<<x<<" ";
-        return res;
-        
-    }
+class Solution {
+public:
+    Solution()
+    {
+        std::ios::sync_with_stdio(false);
+    }
+    vector<int> partitionLabels(string s) 
+    {
+        int n=s.size();
+        unordered_map<char,int>mp;
+        vector<int>ans;
+        for(int i=0; i<n; i++)
+        {
+            mp[s[i]]=i;
+        }
+        for(int i=0; i<n; i++)
+        {
+            int start=i,end=mp[s[i]],maxi=mp[s[i]];
+            if(start!=end)
+            {
+                for(int j=start+1; j<end; j++)
+                {
+                    maxi=max(maxi,mp[s[j]]);
+                    end=maxi;
+                }
+                ans.push_back(maxi-start+1);
+                i=maxi;
+            }
+            else
+            {
+                ans.push_back(1);
+            }
+            
+        }
+        return ans;
+        
+    }
 };
-​
