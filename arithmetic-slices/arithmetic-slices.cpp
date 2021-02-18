@@ -20,7 +20,8 @@ public:
         if(n<=2)
             return 0;
         int i=0,j=2;
-        vector<int>ans;
+        int res=0;
+        //vector<int>ans;
         while(j-i+1>=3&&j<n)
         {
             int diff=0;
@@ -28,7 +29,9 @@ public:
             {
                 while(j+1<n&&A[j+1]-A[j]==diff)
                     j++;
-                ans.push_back(j-i+1);
+                //ans.push_back(j-i+1);
+                int m=(j-i+1)-2;
+                res+=(m*(m+1)/2);
                 i=j+1;
                 j=i+2;
                 if(j>=n)
@@ -41,12 +44,12 @@ public:
             }
         }
         
-        int res=0;
-        for(auto x: ans)
-        {
-            int n=x-2;
-            res+=(n*(n+1)/2);
-        }
+        
+        // for(auto x: ans)
+        // {
+        //     int n=x-2;
+        //     res+=(n*(n+1)/2);
+        // }
         return res;
     }
 
