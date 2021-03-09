@@ -16,42 +16,32 @@ public:
         ios_base::sync_with_stdio(false);
         cin.tie(NULL);
     }
-    void func(TreeNode*root, unordered_map<int,int>&mp, int&ct)
+    //Using Bit-wise trick to check if path is pseudo - palindrome or not 
+    //Refer Solution for more details
+    
+    void func(TreeNode*root, int path , int&ct)
     {
         if(!root)
             return;
         
         if(root)
         {
-            mp[root->val]++;
-            func(root->left,mp,ct);
-            func(root->right,mp,ct);
-            mp[root->val]--;
+            path=path^(1<<root->val); // Note : 1<<x = 2^x ;
+            func(root->left,path,ct);
+            func(root->right,path,ct);
         }
         
         if(root and !root->left and !root->right)
-        {
-            int tmp=0;
-            mp[root->val]++;
-            for(auto x: mp)
-            {
-                if(mp[x.first]%2)
-                    tmp++;
-                if(tmp>1)
-                    break;
-            }
-            if(tmp<=1)
+        { 
+            if((path & (path-1))==0)
                 ct+=1;
-            mp[root->val]--;
-            return;
         }
     }
     
     int pseudoPalindromicPaths (TreeNode* root) 
     {
-        unordered_map<int,int>mp;
         int ct=0;
-        func(root,mp,ct);
+        func(root,0,ct);
         return ct;
     }
 };
