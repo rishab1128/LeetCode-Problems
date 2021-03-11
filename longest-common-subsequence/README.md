@@ -1,3 +1,4 @@
+[Discussion Post (created on 12/2/2021 at 1:50)](https://leetcode.com/problems/longest-common-subsequence/submissions/)  
 <h2>1143. Longest Common Subsequence</h2><h3>Medium</h3><hr><div><p>Given two strings <code>text1</code> and <code>text2</code>, return the length of their longest common subsequence.</p>
 
 <p>A <em>subsequence</em> of a string is a new string generated from the original string with some characters(can be none) deleted without changing the relative order of the remaining characters. (eg, "ace" is a subsequence of "abcde" while "aec" is not).&nbsp;A <em>common subsequence</em>&nbsp;of two strings is a subsequence that is common to both strings.</p>
