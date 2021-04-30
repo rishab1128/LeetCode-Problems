@@ -10,8 +10,9 @@ public:
             int h=h1+abs(d2-d1);
             if(h>h2)
                 h=h2+(h-h2)/2;
+            if(h<h2)
+                arr[i+1][1]=h;
             ans=max(ans,h);
-            arr[i+1][1]=min(arr[i+1][1] , h);
         }
         return ans;
     }
