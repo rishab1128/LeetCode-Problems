@@ -5,6 +5,7 @@ public:
     {
         int m=strs[0].size()  , n=strs.size();
         vector<int>dp(m,1);
+        //dp[j] --> Longest increasing subseq till j taking into consideration all the strings (strs[0] to strs[n-1]);
         for(int j=1; j<m; j++)
         {
             for(int k=j-1; k>=0; k--)
