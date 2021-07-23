@@ -1,59 +1,62 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& a, vector<int>& b) 
+    double findMedianSortedArrays(vector<int>& A, vector<int>& B) 
     {
-        int n=a.size() , m=b.size();
-        if(n==0 and m==0)
-            return 0.00000;
-        //Assuming len(a) <= len(b) always 
-        if(n>m)
+        int m=A.size() , n=B.size();
+        int i=0,j=0,ct=0;
+        double res=0;
+        while(i<m and j<n)
         {
-            swap(a,b);
-            swap(n,m);
-        }
-        
-        if(n==0 &&  m>0)
-        {
-            if(m%2)
-                return (double)b[m/2];
-            else
-                return ((double)b[m/2]+b[(m/2)-1])/2;
-        }
-        
-        int a_min=0,a_max=n;
-        int len=(m+n+1)/2;
-        while(a_min<=a_max)
-        {
-            int a_count=a_min+(a_max-a_min)/2;
-            int b_count=len-a_count;
-            if(a_count > 0 and a[a_count-1] > b[b_count])
-                a_max=a_count-1;
-            else if(a_count < n and a[a_count] < b[b_count-1])
-                a_min=a_count+1;
+            if(A[i]<=B[j])
+            {
+                ct++;
+                if((m+n)%2 && ct==(m+n+1)/2)
+                {
+                    double ans=(double)A[i];
+                    return ans;
+                }
+                else if((m+n)%2==0 && (ct==(m+n)/2 || ct==(m+n)/2+1))
+                    res+=(double)A[i];
+                i++;
+            }
             else
             {
-                int lefti=0,righti=0;
-                if(a_count==0)
-                    lefti=b[b_count-1];
-                else if(b_count==0)
-                    lefti=a[a_count-1];
-                else
-                    lefti=max(a[a_count-1],b[b_count-1]);
-                
-                if((m+n)%2)
-                    return (double)lefti;
-                
-                if(a_count==n)
-                    righti=b[b_count];
-                else if(b_count==m)
-                    righti=a[a_count];
-                else
-                    righti=min(a[a_count],b[b_count]);
-                
-                return ((double)lefti+righti)/2;
-                
+                ct++;
+                if((m+n)%2 && ct==(m+n+1)/2)
+                {
+                    double ans=(double)B[j];
+                    return ans;
+                }
+                else if((m+n)%2==0 && (ct==(m+n)/2 || ct==(m+n)/2+1))
+                    res+=(double)B[j];
+                j++;
             }
         }
-        return -1;
+        while(i<m)
+        {
+            ct++;
+            if((m+n)%2 && ct==(m+n+1)/2)
+            {
+                double ans=(double)A[i];
+                return ans;
+            }
+            else if((m+n)%2==0 && (ct==(m+n)/2 || ct==(m+n)/2+1))
+                res+=(double)A[i];
+            i++;
+        }
+        while(j<n)
+        {
+            ct++;
+            if((m+n)%2 && ct==(m+n+1)/2)
+            {
+                double ans=(double)B[j];
+                return ans;
+            }
+            else if((m+n)%2==0 && (ct==(m+n)/2 || ct==(m+n)/2+1))
+                res+=(double)B[j];
+            j++;
+        }
+
+        return res/2;
     }
 };
