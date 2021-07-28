@@ -10,30 +10,26 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) 
+    ListNode* removeNthFromEnd(ListNode* head, int n)
     {
-        //Count the no. of nodes in the LL
+        //Using slow and fast pointers
+        ListNode*dummy=head;
+        ListNode*slow=dummy , *fast=dummy;
         int ct=0;
-        ListNode*root=head;
-        while(root!=NULL)
+        while(ct!=n)
         {
+            fast=fast->next;
             ct++;
-            root=root->next;
         }
-        if(n==ct)
-            return head->next;
-        // cout<<ct<<endl;
-        root=head;
-        int tmp=0;
-        while(root!=NULL and tmp!=ct-n-1)
+        if(!fast)
+            return dummy->next;
+        while(fast->next!=NULL)
         {
-            tmp++;
-            root=root->next;
+            fast=fast->next;
+            slow=slow->next;
         }
-        if(root->next!=NULL)
-            root->next=root->next->next;
-        cout<<tmp<<" "<<root->val;
-        return head;
+        slow->next=slow->next->next;
+        return dummy;
         
     }
 };
