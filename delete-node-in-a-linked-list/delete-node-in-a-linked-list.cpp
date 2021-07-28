@@ -13,7 +13,7 @@ public:
         //Delete last node or tail node
         if(node->next==NULL)
         {
-            delete(node);
+            node=NULL;
         }
         ListNode*tmp=node->next;
         node->val=node->next->val;
