@@ -1,36 +1,32 @@
-#include<bits/stdc++.h>
-using namespace std;
-
-// struct ListNode 
-// {
-//     int val;
-//     ListNode *next;
-//     ListNode(int x) : val(x), next(NULL) {}
-// };
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    //Approach 1 -> Using Hash Map
-    //TC: O(N+M) ; SC: O(N)
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
     {
-        map<ListNode*,int>mp;
-        ListNode*ans=NULL;
-        while(headA!=NULL)
+        ListNode*dummy1=headA , *dummy2=headB;
+        while(dummy1!=NULL or dummy2!=NULL)
         {
-            mp[headA]=1;
-            headA=headA->next;
-        }
-        while(headB!=NULL)
-        {
-            if(mp[headB])
-            {
-                ans=headB;
+            //cout<<dummy1->val<<" "<<dummy2->val<<endl;
+            if(dummy1==dummy2)
+                return dummy1;
+            dummy1=dummy1->next;
+            dummy2=dummy2->next;
+            if(!dummy1 and !dummy2)
                 break;
-            }
-            headB=headB->next;
+            if(!dummy1)
+                dummy1=headB;
+            if(!dummy2)
+                dummy2=headA;
         }
-        return ans;
+        return NULL;
         
     }
+    
 };
