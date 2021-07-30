@@ -1,31 +1,27 @@
-class Solution 
-{
+class Solution {
 public:
-    Solution()
-    {
-        std::ios::sync_with_stdio(false);
-    }
-
     vector<int> dailyTemperatures(vector<int>& T) 
     {
-        //Without using stack
+        //Using montonic queue (decreasing one)
         int n=T.size();
-        vector<int>ans(n,0);
-        for(int i=n-2; i>=0; --i)
+        deque<int>dq;
+        vector<int>ans(n);
+        ans[n-1]=0;
+        dq.push_back(n-1);
+        for(int i=n-2; i>=0; i--)
         {
-            int j=i+1;
-            if(T[j]>T[i])
-                ans[i]=1;
-            else 
-            {
-                while(T[j]<=T[i]&&ans[j]!=0)
-                {
-                    j=j+ans[j];
-                }
-                if(T[j]>T[i])
-                    ans[i]=j-i;
-            }
+            while(!dq.empty() and T[dq.back()]<=T[i])
+                dq.pop_back();
+            
+            if(dq.empty())
+                ans[i]=0;
+            else
+                ans[i]=dq.back()-i;
+            
+            dq.push_back(i);
         }
         return ans;
+        
+        
     }
 };
