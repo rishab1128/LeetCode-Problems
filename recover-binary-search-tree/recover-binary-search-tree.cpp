@@ -11,46 +11,39 @@
  */
 class Solution {
 public:
-    //Traversing the BST in an inorder fashion
-    void helper(TreeNode*root , TreeNode**first , TreeNode**mid , TreeNode**last , TreeNode**prev)
+    //Using Iterative Inorder Traversal Techq
+    void recoverTree(TreeNode* root) 
     {
-        if(!root)
-            return;
-
-        helper(root->left,first,mid,last,prev);
-
-        if((*prev) and root->val<(*prev)->val)
+        TreeNode*first=NULL , *mid=NULL , *last=NULL , *prev=NULL;
+        stack<TreeNode*>st;
+        while(!st.empty() || root)
         {
-            if(!(*first))
+            while(root)
             {
-                *first=*prev;
-                *mid=root;
+                st.push(root);
+                root=root->left;
             }
-            else
+            root=st.top();
+            st.pop();
+            if(prev and prev->val>root->val)
             {
-                *last=root;
+                if(!first)
+                {
+                    first=prev;
+                    mid=root;
+                }
+                else
+                    last=root;
             }
+            prev=root;
+            root=root->right;
         }
-        *prev=root;
-        helper(root->right,first,mid,last,prev);
-    }
-
-    void recoverTree(TreeNode*root){
-
-        TreeNode*first=NULL,*last=NULL,*mid=NULL,*prev=NULL;
-
-        helper(root,&first,&mid,&last,&prev);
-
-        //case 1 -> when swapped elements are not adj to each other
+        //case 1 : when two swapped values are not adj to each other
         if(first and last)
             swap(first->val,last->val);
-
-        //case 2 -> when swapped elements are adj to each other
+        //case 2 : when two swapped values are adj to each other
         else if(first and mid)
             swap(first->val,mid->val);
-
         return;
     }
-    
-    
 };
