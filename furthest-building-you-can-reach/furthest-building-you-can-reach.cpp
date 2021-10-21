@@ -1,5 +1,7 @@
 class Solution {
 public:
+    //Refer : https://leetcode.com/problems/furthest-building-you-can-reach/discuss/918374/Basic-Priority-Queue-Single-Pass-or-Code-with-Comments-or-Corner-Cases
+    
     int furthestBuilding(vector<int>& hts, int bricks, int ladders) 
     {
         int n=hts.size();
