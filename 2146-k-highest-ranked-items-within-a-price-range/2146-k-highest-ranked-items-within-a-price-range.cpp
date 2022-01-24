@@ -1,48 +1,34 @@
 class Solution {
 public:
-    
-    vector<vector<int>> highestRankedKItems(vector<vector<int>>& arr, vector<int>& price, vector<int>& start, int k) 
-    {
-        int n=arr.size(), m=arr[0].size() , low=price[0], high=price[1] , x=start[0], y=start[1];
-        
-        
-        vector<vector<int>>pos;
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        vector<vector<int>>dis(n,vector<int>(m,0));
-        vector<vector<int>>dir={{1,0},{-1,0},{0,1},{0,-1}};
-        queue<vector<int>>q;
-        
-        q.push({x,y,0});
-        vis[x][y]=1;
-        while(!q.empty())
-        {
-            auto node=q.front();
-            q.pop();
-            int x=node[0],y=node[1],distance=node[2];
-            
-            if(arr[x][y]>=low and arr[x][y]<=high)
-                pos.push_back({distance,arr[x][y],x,y});
-            
-            dis[x][y]=distance;
-            for(int i=0; i<4; i++)
-            {
-                int dx=x+dir[i][0] , dy=y+dir[i][1];
-                if(dx>=0 and dx<n and dy>=0 and dy<m and !vis[dx][dy] and arr[dx][dy])
-                {
-                    vis[dx][dy]=1;
-                    q.push({dx,dy,distance+1});
+    vector<vector<int>> highestRankedKItems(vector<vector<int>>& A, vector<int>& P, vector<int>& start, int k) {
+        int M = A.size(), N = A[0].size(), step = 0, dirs[4][2] = {{0,1},{0,-1},{1,0},{-1,0}};
+        queue<pair<int, int>> q{{{start[0], start[1]}}};
+        vector<vector<int>> dist(M, vector<int>(N, INT_MAX)), ans; // dist[x][y] is the shortest distance from (x,y) to `start`.
+        dist[start[0]][start[1]] = 0;
+        while (q.size()) {
+            int cnt = q.size();
+            while (cnt--) {
+                auto [x, y] = q.front();
+                q.pop();
+                if (A[x][y] >= P[0] && A[x][y] <= P[1]) ans.push_back({x, y});
+                for (auto &[dx, dy] : dirs) {
+                    int a = x + dx, b = y + dy;
+                    if (a < 0 || b < 0 || a >= M || b >= N || A[a][b] == 0 || dist[a][b] != INT_MAX) continue;
+                    dist[a][b] = step + 1;
+                    q.emplace(a, b);
                 }
             }
+            ++step;
         }
-        
-        sort(pos.begin(),pos.end());
-        
-        vector<vector<int>>ans;
-        for(int i=0; i<min(k,(int)pos.size()); i++)
-            ans.push_back({pos[i][2], pos[i][3]});
-        
-        
+        sort(begin(ans), end(ans), [&](auto &a, auto &b) {
+            int x1 = a[0], y1 = a[1], x2 = b[0], y2 = b[1];
+            int d1 = dist[x1][y1], d2 = dist[x2][y2];
+            if (d1 != d2) return d1 < d2;
+            int p1 = A[x1][y1], p2 = A[x2][y2];
+            if (p1 != p2) return p1 < p2;
+            return a < b;
+        });
+        if (ans.size() > k) ans.resize(k);
         return ans;
-        
     }
 };
