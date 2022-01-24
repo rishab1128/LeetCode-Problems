@@ -1,27 +1,18 @@
-//Refer 1st comment from : https://leetcode.com/problems/count-the-hidden-sequences/discuss/1709755/JavaC%2B%2BPython-Straight-Forward-Solution-with-Explantion
+//Refer the comment with pic from : https://leetcode.com/problems/count-the-hidden-sequences/discuss/1709755/JavaC%2B%2BPython-Straight-Forward-Solution-with-Explantion
 
 class Solution {
 public:
     int numberOfArrays(vector<int>& diff, int lower, int upper) 
     {
-        int n=diff.size();
-        vector<long long>pref(n);
-        pref[0]=diff[0];
-        long long mini=pref[0],maxi=pref[0];
-        for(int i=1; i<n; i++){
-            pref[i]=pref[i-1]+diff[i];
-            mini=min(mini,pref[i]);
-            maxi=max(maxi,pref[i]);
-        }
-        
-        //Let x be the starting element
-        int cnt=0;
-        for(int x=lower; x<=upper; x++)
+        long long prev=lower , maxi=lower, mini=lower;
+        for(int i=0; i<diff.size(); i++)
         {
-            if(x+mini>=lower and x+maxi<=upper)
-                cnt++;
+            long long next=prev+diff[i];
+            maxi=max(maxi,next);
+            mini=min(mini,next);
+            prev=next;
         }
-        
-        return cnt;
+        int ans=(upper-lower)-(maxi-mini)+1;
+        return ans<=0 ? 0 : ans;
     }
 };
