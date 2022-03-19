@@ -3,8 +3,15 @@ const ll ll_INF  = 0x3f3f3f3f3f3f3f3f;
 
 class Solution {
 public:
-    vector<ll>dijkstra(int src , vector<vector<pair<ll,ll>>>&adj, int n)
+    unordered_map<int,vector<pair<int,int>>>adj;
+    unordered_map<int,vector<pair<int,int>>>revAdj;
+    ll n;
+
+    vector<ll>dijkstra(int src , bool flag)
     {
+        if(flag)
+            adj=revAdj;
+
         vector<ll>dist(n,ll_INF);
         dist[src]=0;
         priority_queue<pair<ll,ll> , vector<pair<ll,ll>> , greater<> > pq;
@@ -33,9 +40,9 @@ public:
         return dist;
     }
 
-    ll minimumWeight(int n, vector<vector<int>>& edges, int src1, int src2, int dest) 
+    ll minimumWeight(int N, vector<vector<int>>& edges, int src1, int src2, int dest) 
     {
-        vector<vector<pair<ll,ll>>>adj(n), revAdj(n);
+        n = N;
         ll ans=ll_INF;
 
         for(auto edge : edges){
@@ -44,9 +51,9 @@ public:
             revAdj[v].push_back({u,w});
         }
 
-        vector<ll>dist1 = dijkstra(src1,adj,n);
-        vector<ll>dist2 = dijkstra(src2,adj,n);
-        vector<ll>dist3 = dijkstra(dest,revAdj,n);
+        vector<ll>dist1 = dijkstra(src1,0);
+        vector<ll>dist2 = dijkstra(src2,0);
+        vector<ll>dist3 = dijkstra(dest,1);
 
         for(int i=0; i<n; i++)
         {
