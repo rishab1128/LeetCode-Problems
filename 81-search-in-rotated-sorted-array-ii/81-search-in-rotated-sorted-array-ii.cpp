@@ -9,17 +9,18 @@ public:
             int mid=lo+(hi-lo)/2;
             
             if (A[mid] == target) return true;
-            
-            if((A[lo]==A[mid]) and (A[hi]==A[mid]))
-                lo++,hi--;
         
-            else if (A[lo] <= A[mid]) {
+            if (A[lo] < A[mid]) {
                 if (target >= A[lo] && target < A[mid]) {
                     hi = mid - 1;
                 } else {
                     lo = mid + 1;
                 }
-            } 
+            }
+            
+            else if(A[lo]==A[mid])
+                lo++;
+            
             else {
                 if (target > A[mid] && target <= A[hi]) {
                     lo = mid + 1;
