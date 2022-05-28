@@ -26,30 +26,19 @@ public:
     
     bool isPalindrome(ListNode* head) 
     {
-        ListNode*node = head;
-        int num=0;
-        while(node!=NULL)
+        ListNode*node = head , *slow=head, *fast=head , *temp=NULL;
+        while(fast and fast->next)
         {
-            num++;
-            node=node->next;
+            fast=fast->next->next;
+            slow=slow->next;
         }
-        int ct=0;
-        ListNode*temp=head;
-        while(ct!=num/2)
-        {
-            ct++;
-            temp=temp->next;
-        }
+        temp=slow;
         
         ListNode*rev=NULL;
         // cout<<temp->val<<endl;
         
-        if(num%2==0)
-            rev = reverse(temp);
-        else
-            rev = reverse(temp->next);
+        rev = reverse(temp);
         
-        node=head;
         while(rev!=NULL)
         {
             if(node->val==rev->val)
