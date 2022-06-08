@@ -2,24 +2,35 @@ class Solution {
 public:
     vector<int> fullBloomFlowers(vector<vector<int>>& arr, vector<int>& per) 
     {
-        int n  = arr.size();
-        vector<int>start(n) , endo(n);
-        for(int i=0; i<n; i++)
+        map<int,int>mp;
+        for(auto v :  arr)
         {
-            start[i]=arr[i][0];
-            endo[i]=arr[i][1];
+            int start = v[0] , end = v[1];
+            mp[start]+=1;
+            mp[end+1]-=1;
         }
-        sort(start.begin(),start.end());
-        sort(endo.begin(),endo.end());
         
-        int m = per.size();
-        vector<int>ans(m);
-        for(int i=0; i<m; i++)
+        vector<pair<int,int>>pref;
+        for(auto x : mp)
+            pref.push_back(x);
+        
+        int m = pref.size();
+        for(int i=1; i<m; i++)
+            pref[i].second += pref[i-1].second;
+        
+        vector<int>days(m);
+        for(int i=0; i<m; i++){
+            // cout<<pref[i].first<<" "<<pref[i].second<<endl;
+            days[i] = pref[i].first;
+        }
+                    
+        int sz = per.size();
+        vector<int>ans(sz,0);
+        for(int i=0; i<sz; i++)
         {
-            int t = per[i];
-            int started_blooming = upper_bound(start.begin(),start.end(),t)-start.begin();
-            int already_ended_blooming = lower_bound(endo.begin(),endo.end(),t)-endo.begin();
-            ans[i] = started_blooming - already_ended_blooming;
+            int idx = upper_bound(days.begin(),days.end(),per[i])-days.begin();
+            idx--;
+            ans[i] = idx>=0 ? pref[idx].second : 0;
         }
         
         return ans;
