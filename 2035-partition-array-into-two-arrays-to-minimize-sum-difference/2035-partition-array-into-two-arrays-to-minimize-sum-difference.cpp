@@ -42,7 +42,7 @@ public:
         for(ll sz1=0; sz1<=n; sz1++)
         {
             vector<ll>szSubset = ltSubSum[sz1];
-            for(auto a : szSubset)
+            for(auto &a : szSubset)
             {
                 ll X = tSum-2*a;
                 ll sz2 = n-sz1;
