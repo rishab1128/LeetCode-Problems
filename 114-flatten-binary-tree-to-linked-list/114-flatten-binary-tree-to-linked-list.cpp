@@ -16,13 +16,7 @@ public:
         if(!root)
             return NULL;
         
-        
-        //Leaf Node
-        if(root and !root->left and !root->right)
-        {
-            return root;
-        }
-        
+         
         TreeNode* lt = recur(root->left);
         TreeNode* rt = recur(root->right);
         
