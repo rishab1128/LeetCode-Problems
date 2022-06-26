@@ -2,6 +2,7 @@ class Solution {
 public:
     int rectangleArea(vector<vector<int>>& rectangles) 
     {
+        //Refer Note
         set<int> x , y;
         const int mod = 1e9+7;
         
