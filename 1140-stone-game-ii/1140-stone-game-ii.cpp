@@ -1,41 +1,45 @@
 class Solution {
 public:
-    int n;
-    int dp[101][101];
+    int dp[101][101]= {};
     
-    int recur(vector<int>&arr, int idx, int m)
+    int recurse(vector<int> &v, int idx, int m, int n)
     {
         if(idx>=n)
             return 0;
         
-        if(dp[idx][m]!=-1)
-            return dp[idx][m];
-        
-        if(idx+2*m>=n)
+        int sum = 0; 
+        if(idx+2*m>=v.size())
         {
-            int sum = 0;
-            for(int i=idx; i<n; i++)
-                sum+=arr[i];
-            return dp[idx][m] = sum;
+            for(int i=idx;i<n;i++){
+                sum+=v[i];     
+            }
+            return sum;
         }
         
-        int sum = 0;
-        int bob = INT_MAX;
+        if(dp[idx][m] != 0)
+            return dp[idx][m];
         
-        for(int x=1; x<=2*m; x++)
-            bob = min(bob , recur(arr,idx+x,max(m,x)));
         
-        for(int j=idx; j<n; j++)
-            sum+=arr[j];
-        
-        return dp[idx][m] = sum - bob; //alice + bob = sum;
+        int aliceProfit = -INT_MAX;
+        sum = 0;
+        int cnt = 0;
+        for(int i = idx; i<min(2*m+idx, n); i++){
+            cnt++;
+            sum+=v[i];
+            aliceProfit = max(aliceProfit, sum - recurse(v, i+1, max(cnt, m), n));
+        }
+        dp[idx][m] = aliceProfit;
+        return aliceProfit;
     }
     
-    int stoneGameII(vector<int>& arr) 
-    {
-        memset(dp,-1,sizeof(dp));
-        n = arr.size();
-        int ans = recur(arr,0,1);
-        return ans;
+    
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        int totalSum = accumulate(piles.begin(), piles.end(), 0);
+        
+        int aliceProfit = recurse(piles , 0, 1,n);
+        
+        int aliceScore  = (totalSum + aliceProfit)/2;
+        return aliceScore;
     }
 };
