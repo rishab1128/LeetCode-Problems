@@ -1,5 +1,9 @@
 class Solution {
 public:
+    
+    //Refer O.G. Votrubac's diagram + his Bottom Up Code : https://leetcode.com/problems/minimum-score-triangulation-of-polygon/discuss/286753/C%2B%2B-with-picture
+    
+    
     map<vector<int>,int>dp;
     int recur(vector<int>arr)
     {
