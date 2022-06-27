@@ -5,6 +5,7 @@ public:
     int n;
     const int INF = -0x3f3f3f3f;
     
+    //This recursive function mainly calculates the maximum profit that alice can make
     int recurse(vector<int> &arr, int idx)
     {
         if(idx>=n)
