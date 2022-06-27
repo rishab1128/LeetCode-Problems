@@ -3,7 +3,7 @@ public:
     int longestSubsequence(vector<int>& arr, int diff) 
     {
         int n = arr.size();
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         mp[arr[0]]=0;
         vector<int>dp(n,1);
         for(int i=1; i<n; i++)
