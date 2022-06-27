@@ -7,6 +7,7 @@ public:
         //Ans  = *max_element of dp array
         //dp[j] := maxSum/(finds appropriate i) if that element is chosen as my arr[j] 
         
+        //Credit : @fcukcode
         
         int n = arr.size();
         vector<int>dp(n,0);
