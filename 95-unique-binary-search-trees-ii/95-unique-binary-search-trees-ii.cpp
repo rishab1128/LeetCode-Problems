@@ -12,22 +12,25 @@
 class Solution {
 public:
     
-    vector<TreeNode*> recur(int i, int j)
+    vector<TreeNode*> recur(int low, int high)
     {
         vector<TreeNode*> ans;
-        if(i>j) 
+        if(low>high) 
         {
             ans.push_back(NULL);
             return ans;
         }
         
-        for(int it = i; it <= j; it++)
+        for(int i = low; i <= high; i++)
         {
-            auto left = recur(i,it-1);
-            auto right = recur(it+1,j);
-            for(auto l : left) {
-                for(auto r : right){
-                    TreeNode* newNode = new TreeNode(it, l, r);
+            vector<TreeNode*> left = recur(low,i-1);
+            vector<TreeNode*> right = recur(i+1,high);
+            
+            for(TreeNode* leftNode : left) 
+            {
+                for(TreeNode* rightNode : right)
+                {
+                    TreeNode* newNode = new TreeNode(i, leftNode, rightNode);
                     ans.push_back(newNode);
                 }
             }
