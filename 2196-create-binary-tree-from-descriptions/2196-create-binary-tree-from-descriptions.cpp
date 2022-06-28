@@ -11,41 +11,39 @@
  */
 class Solution {
 public:
-    TreeNode* createBinaryTree(vector<vector<int>>& desc) 
-    {
-        unordered_map<int,TreeNode*>mp;
-        unordered_map<int,int>children;
-        for(auto arr : desc)
-        {
-            int par=arr[0] , child=arr[1] , isLeft=arr[2];
-            if(mp.find(par)==mp.end())
-            {
-                TreeNode*node=new TreeNode(par);
-                mp[par]=node;
-            }
-            if(mp.find(child)==mp.end())
-            {
-                TreeNode*childNode=new TreeNode(child);
-                mp[child]=childNode;
-            }
-            if(isLeft)
-                mp[par]->left=mp[child];
-            else
-                mp[par]->right=mp[child];
-            
-            children.insert({child,1});
+    TreeNode* dfs(int root, unordered_map<int, pair<int, int>> &adj){
+        if(root == -1)return NULL;
+        if(adj.find(root) == adj.end()){
+            TreeNode* x = new TreeNode(root);
+            return x;
         }
-        int ans=-1;
-        for(auto arr: desc)
-        {
-            int par=arr[0] , child=arr[1];
-            if(children[par]==0)
-            {
-                ans=par;
+        TreeNode* node = new TreeNode(root, dfs(adj[root].second, adj), dfs(adj[root].first, adj));
+        return node;
+    }
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        unordered_map<int, int> m;
+        unordered_map<int, pair<int, int>> adj;
+        for(auto x: descriptions){
+            if(adj.find(x[0]) == adj.end()){
+                adj[x[0]] = {-1, -1};   
+            }
+            if(x[2] == 1){
+                adj[x[0]].second = x[1];
+            }else{
+                adj[x[0]].first = x[1];
+            }
+            m[x[1]]++;
+            if(m.find(x[0]) == m.end()){
+                m[x[0]] = 0;
+            }
+        }
+        int root;
+        for(auto x: m){
+            if(x.second == 0){
+                root = x.first;
                 break;
             }
         }
-        
-        return mp[ans];
+        return dfs(root, adj);
     }
 };
