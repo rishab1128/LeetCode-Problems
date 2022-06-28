@@ -3,31 +3,41 @@ public:
     
     vector<int>ans;
     vector<bool>vis;
-    pair<int,int>tmp={-1,-1};
     
-    void dfs(int node, int lvl, vector<vector<int>> &adj , vector<int>&arr, vector<pair<int,int>>mp) //value - > {node,level}
+    void bfs(int node, int lvl, vector<vector<int>> &adj, vector<int>&arr) //value - > {node,level}
     {
+        queue<tuple<int,int,vector<pair<int,int>>>>q;
+        vector<pair<int,int>>mp(51,{-1,-1});
+        pair<int,int>tmp = {-1,-1};
+        q.push({node,lvl,mp});
         vis[node]=1;
-        int lastLevel = -1;
-        for(int i=1; i<=50; i++)
+        
+        while(!q.empty())
         {
-            if(__gcd(i,arr[node])==1 and mp[i]!=tmp)
+            auto [node,lvl,mp] = q.front();
+            q.pop();
+            int lastLevel = -1;
+            for(int i=1; i<=50; i++)
             {
-                auto [par,level] = mp[i];
-                if(level>lastLevel)
+                if(__gcd(i,arr[node])==1 and mp[i] != tmp)
                 {
-                    ans[node]=par;
-                    lastLevel=level;
+                    auto [par,level] = mp[i];
+                    if(level>lastLevel)
+                    {
+                        ans[node]=par;
+                        lastLevel=level;
+                    }
                 }
             }
-        }
-        
-        mp[arr[node]] = {node,lvl};
-        
-        for(auto child : adj[node])
-        {
-            if(!vis[child])
-                dfs(child,lvl+1,adj,arr,mp);
+
+            mp[arr[node]] = {node,lvl};
+            for(auto child : adj[node])
+            {
+                if(!vis[child]){
+                    q.push({child,lvl+1,mp});
+                    vis[child]=1;
+                }
+            }
         }
     }
     
@@ -45,9 +55,7 @@ public:
             adj[v].push_back(u);
         }
         
-        vector<pair<int,int>>mp(51,{-1,-1});
-        
-        dfs(0,0,adj,arr,mp);
+        bfs(0,0,adj,arr);
         
         return ans;
     }
