@@ -1,3 +1,4 @@
+//Exactly like  - 678.Valid Srtring
 class Solution {
 public:
     bool canBeValid(string s, string locked) 
