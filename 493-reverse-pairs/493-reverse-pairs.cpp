@@ -4,21 +4,13 @@ public:
     ll merge(vector<int>&arr, ll left, ll right)
     {
         ll mid = (left+right)/2;
-
-        vector<ll> leftArr;
-        vector<ll> rightArr;
-
-        for(ll i=left; i<=mid; i++)
-            leftArr.push_back(arr[i]);
-
-        for(ll j=mid+1; j<=right; j++)
-            rightArr.push_back(arr[j]);
-
-        ll cnt = 0, m = leftArr.size();
-        for(ll i=0; i<rightArr.size(); i++)
+        ll y = mid+1 , cnt = 0;
+        for(ll x=left; x<=mid; x++)
         {
-            ll pos = upper_bound(leftArr.begin(),leftArr.end(),rightArr[i]*2)-leftArr.begin();
-            cnt+=m-pos;
+            while(y<=right and arr[x] > 2LL*arr[y]){
+                y++;
+            }
+            cnt += (y-(mid+1));
         }
 
         //Normal 2-poller Technique used in Merge Sort
