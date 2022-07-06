@@ -1,40 +1,36 @@
 class Solution {
 public:
-    vector<int>st;
-    vector<int>dp;
-    
-    int recur(vector<vector<int>>&arr, int idx)
+    static bool cmp(const vector<int>&a , const vector<int>&b)
     {
-        if(idx==arr.size())
-            return 0;
-        
-        if(dp[idx]!=-1)
-            return dp[idx];
-        
-        int newIdx = lower_bound(st.begin(),st.end(),arr[idx][1])-st.begin();
-        
-        int op1 = arr[idx][2]+recur(arr,newIdx);
-        int op2 = recur(arr,idx+1);
-        
-        return dp[idx] = max(op1,op2);
+        return a[1]<b[1];
     }
     
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) 
     {
         int n = startTime.size();
         vector<vector<int>>arr(n);
-        st.resize(n);
-        dp.resize(n,-1);
+        vector<int>endi(n);
+        vector<int>dp(n);
         
         for(int i=0; i<n; i++)
             arr[i]={startTime[i],endTime[i],profit[i]};
         
-        sort(arr.begin(),arr.end());
+        sort(arr.begin(),arr.end(),cmp);
         
         for(int i=0; i<n; i++)
-            st[i]=arr[i][0];
+            endi[i]=arr[i][1];
         
-        int ans = recur(arr,0);
+        dp[0]=arr[0][2];
+        for(int i=1; i<n; i++)
+        {
+            int pos = upper_bound(endi.begin(),endi.end(),arr[i][0])-endi.begin();
+            pos--;
+            if(pos>=0)
+                dp[i]=max(arr[i][2]+dp[pos],dp[i-1]);
+            else
+                dp[i]=max(arr[i][2],dp[i-1]);
+        }
+        int ans = dp[n-1];
         return ans;
     }
 };
