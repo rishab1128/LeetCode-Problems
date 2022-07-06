@@ -1,38 +1,40 @@
 class Solution {
 public:
-    int minOperations(vector<int>& nums, int x) 
+    int minOperations(vector<int>& arr, int x) 
     {
-        int n=nums.size();
-        if(n==0)
-            return 0;
-        int sum=0;
-        for(int i=0; i<n; i++)
+        int n = arr.size();
+        int left = 0 , right = n-1, ops=0, sum=0 , ans=INT_MAX;
+        while(left<n and sum<x)
         {
-            sum+=nums[i];
+            sum+=arr[left];
+            left++;
+            ops++;
         }
         if(sum==x)
-            return n;
-        if(sum<x)
+            ans = ops;
+        
+        if(sum<x and left==n)
             return -1;
-        sum=sum-x;
-        //find max.length sub-array with sum S (O(N)-->Using HashMap)
-        int tot=0,len=0;
-        unordered_map<int,int>mp;
-        for(int i=0; i<n; i++)
+        
+        left--;
+        
+        
+        while(right>=0)
         {
-            tot+=nums[i];
-            if(tot==sum)
-                len=i+1;
-            if(mp.find(tot)==mp.end())
-                mp[tot]=i;
-            if(mp.find(tot-sum)!=mp.end())
+            sum+=arr[right];
+            ops++;
+            while(left>=0 and sum>x)
             {
-                if(len<i-mp[tot-sum])
-                    len=i-mp[tot-sum];
+                sum-=arr[left];
+                left--;
+                ops--;
             }
+            // cout<<sum<<" "<<left<<" "<<ops<<endl;
+            if(sum==x)
+                ans=min(ans,ops);
+            right--;
         }
-        if(len>0)
-            return n-len;
-        return -1;
+        
+        return ans==INT_MAX ? -1 : ans;
     }
 };
