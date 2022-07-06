@@ -11,39 +11,30 @@
  */
 class Solution {
 public:
-    //Using Iterative Inorder Traversal Techq
+    TreeNode*node1 , *node2 , *prev;
+    
+    void inorder(TreeNode*curr)
+    {
+        if(!curr)
+            return;
+        inorder(curr->left);
+        if(prev and prev->val>curr->val){
+            if(!node1)
+                node1=prev;
+            node2=curr;
+        }
+        prev=curr;
+        inorder(curr->right);
+    }
+    
     void recoverTree(TreeNode* root) 
     {
-        TreeNode*first=NULL , *mid=NULL , *last=NULL , *prev=NULL;
-        stack<TreeNode*>st;
-        while(!st.empty() || root)
-        {
-            while(root)
-            {
-                st.push(root);
-                root=root->left;
-            }
-            root=st.top();
-            st.pop();
-            if(prev and prev->val>root->val)
-            {
-                if(!first)
-                {
-                    first=prev;
-                    mid=root;
-                }
-                else
-                    last=root;
-            }
-            prev=root;
-            root=root->right;
-        }
-        //case 1 : when two swapped values are not adj to each other
-        if(first and last)
-            swap(first->val,last->val);
-        //case 2 : when two swapped values are adj to each other
-        else if(first and mid)
-            swap(first->val,mid->val);
+        node1=NULL , node2=NULL , prev=NULL;
+        inorder(root);
+        int tmp = node1->val;
+        node1->val = node2->val;
+        node2->val=tmp;
+        
         return;
     }
 };
