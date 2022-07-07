@@ -2,11 +2,14 @@ class Solution {
 public:
     int racecar(int target) {
         
-        queue<vector<int>> q;
-        q.push({0, 0, 1}); //moves,pos,velocity;
-        while (!q.empty()) {
+        //This code also prints the required path;
+        queue<pair<vector<int>,string>> q;
+        q.push({{0, 0, 1},""}); //(moves,pos,velocity) , path;
+        while (!q.empty()) 
+        {
             
-            vector<int> arr = q.front();
+            vector<int> arr = q.front().first;
+            string path = q.front().second;
             q.pop();
             
             
@@ -14,19 +17,22 @@ public:
             int pos = arr[1];
             int vel = arr[2];
             
-            if (pos == target) 
+            if (pos == target){
+                cout<<path<<endl;
                 return moves;
+            } 
+                
             
             
             if (abs(pos) > 2 * target) 
                 continue;
             
             
-            q.push({moves + 1, pos + vel, 2 * vel});
+            q.push({{moves + 1, pos + vel, 2 * vel} , path+"A"});
          
             
             if ((pos + vel > target && vel > 0) || (pos + vel < target && vel < 0)) {
-                q.push({moves + 1, pos, (vel > 0) ? -1 : 1});
+                q.push({{moves + 1, pos, (vel > 0) ? -1 : 1},path+"R"});
             }
         }
         
