@@ -1,25 +1,24 @@
 class Solution {
 public:
+    
     int minMeetingRooms(vector<vector<int>>& inter) 
     {
-        map<int,int>mp;
-        
-        for(auto v: inter)
+        sort(inter.begin(), inter.end());
+        multiset<int>st;
+        st.insert(inter[0][1]);
+        int cnt = 1;
+        for(int i=1; i<inter.size(); i++)
         {
-            int start = v[0] , end = v[1];
-            mp[start]++;
-            mp[end]--;
+            int start = inter[i][0] ,  end = inter[i][1];
+            
+            if(start>=*st.begin())
+                st.erase(st.begin());
+            else
+                cnt++;
+            
+            st.insert(end);
         }
         
-        int ans = 0 , last = 0;
-        for(auto &[ele,freq] : mp)
-        {
-            freq += last;
-            ans = max(ans,freq);
-            last = freq;
-        }
-        
-        
-        return ans;
+        return cnt;
     }
 };
