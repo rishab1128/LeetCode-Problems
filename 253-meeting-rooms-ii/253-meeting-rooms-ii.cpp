@@ -2,7 +2,7 @@ class Solution {
 public:
     int minMeetingRooms(vector<vector<int>>& inter) 
     {
-        vector<int>mp(1e6+1,0);
+        map<int,int>mp;
         
         for(auto v: inter)
         {
@@ -11,10 +11,15 @@ public:
             mp[end]--;
         }
         
-        for(int i=1; i<mp.size(); i++)
-            mp[i] += mp[i-1];
+        int ans = 0 , last = 0;
+        for(auto &[ele,freq] : mp)
+        {
+            freq += last;
+            ans = max(ans,freq);
+            last = freq;
+        }
         
-        int ans = *max_element(mp.begin(),mp.end());
+        
         return ans;
     }
 };
