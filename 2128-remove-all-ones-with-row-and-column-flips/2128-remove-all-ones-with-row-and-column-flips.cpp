@@ -1,57 +1,33 @@
 class Solution {
 public:
-    bool checkOneRow(vector<int>arr){
-        int n = arr.size(), ct = 0;
-        for(auto x: arr){
-            if(x==1)
-                ct++;
-        }
-        return ct==n;
-    }
-    
-    
-    bool checkZeroRow(vector<int>arr){
-        int n = arr.size(), ct = 0;
-        for(auto x: arr){
-            if(x==0)
-                ct++;
-        }
-        return ct==n;
-    }
-    
-    void toggleCol(vector<vector<int>>& arr, int j)
+    bool removeOnes(vector<vector<int>>& arr) 
     {
-        int n = arr.size();
-        for(int i=0; i<n; i++)
-            arr[i][j]^=1;
-    }
-    
-    bool removeOnes(vector<vector<int>>& arr) {
-        //Brute Force : O(n*m)
-        
-        //Claim : 
-        //After making the first row all ones 
-        //All the remaining rows should be either ZeroRow(row with all o's) or OneRow(row with all 1's)
-        
         int n = arr.size() , m = arr[0].size();
         
-        if(!checkZeroRow(arr[0]))
-        {
-            for(int j=0; j<m; j++)
-            {
-                if(!arr[0][j])
-                    toggleCol(arr,j);
-            }
-        }
+        //Claim 2 : All rows should have the same pattern (some rows may require 1 flip)
+        
+        //00010010                           00010010
+        //00010010                           00010010
+        //11101101  ---> Flip this row---->  00010010
+        //11101101  ---> Flip this row---->  00010010
+        
+        //Approach : Compare each row pattern with row[0]'s pattern if it macthes completelty then okay and if it does not matches then it should not match for all the m positions-> if no. of unmatched positions < m then return false
         
         for(int i=1; i<n; i++)
         {
-            if(!checkZeroRow(arr[i]) and !checkOneRow(arr[i]))
+            int cnt = 0;
+            for(int j=0; j<m; j++)
+            {
+                if(arr[i][j]==arr[0][j])
+                    continue;
+                else
+                    cnt++;
+            }
+            if(cnt>0 and cnt<m)
                 return false;
         }
         
         return true;
-        
         
     }
 };
