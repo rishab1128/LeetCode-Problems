@@ -4,25 +4,26 @@ public:
     {
         vector<int>tmp = arr;
         sort(tmp.begin(),tmp.end());
-        int j;
         multiset<int>st;
-        int ans = 0;
+        int j , ans = 0 , last = 0;
         for(auto x: arr)
         {
             st.insert(x);
-            j = 0;
+            j = last;
             for(auto y : st)
             {
                 if(y!=tmp[j])
                     break;
                 j++;
             }
-            if(j==st.size()){
-                vector<int>future(arr.begin()+j,arr.end());
-                return 1+maxChunksToSorted(future);
+            if(j-last==st.size()){
+                // vector<int>future(arr.begin()+j,arr.end());
+                st.clear();
+                last = j;
+                ans++;
             }
         }
         
-        return 0;
+        return ans;
     }
 };
