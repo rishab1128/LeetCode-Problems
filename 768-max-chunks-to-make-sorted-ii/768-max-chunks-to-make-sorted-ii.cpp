@@ -2,28 +2,20 @@ class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) 
     {
-        vector<int>tmp = arr;
-        sort(tmp.begin(),tmp.end());
-        multiset<int>st;
-        int j , ans = 0 , last = 0;
-        for(auto x: arr)
+        //Using Monotonic Stack
+        //Each element in the stack represents the largest value in each chunk when the chunk cannot be partitioned to smaller ones
+        int n = arr.size();
+        stack<int>st;
+        for(int i=0; i<n; i++)
         {
-            st.insert(x);
-            j = last;
-            for(auto y : st)
-            {
-                if(y!=tmp[j])
-                    break;
-                j++;
-            }
-            if(j-last==st.size()){
-                // vector<int>future(arr.begin()+j,arr.end());
-                st.clear();
-                last = j;
-                ans++;
-            }
+            int maxi = arr[i];
+            while(st.size() and st.top()>arr[i])
+                maxi = max(maxi,st.top()) , st.pop();
+            st.push(maxi);
         }
-        
+        int ans = st.size();
         return ans;
+        
+        
     }
 };
