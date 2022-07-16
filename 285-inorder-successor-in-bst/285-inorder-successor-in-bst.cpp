@@ -9,24 +9,19 @@
  */
 class Solution {
 public:
-    TreeNode*ans;
-    
-    void dfs(TreeNode*root, TreeNode*node, TreeNode*p)
-    {
-        if(!root){
-            ans = node;
-            return;
+    //Iterative
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        TreeNode*succ = NULL;
+        while(root)
+        {
+            if(root->val<=p->val)
+                root = root->right;
+            else
+            {
+                succ = root;
+                root = root->left;
+            }
         }
-        if(root->val<=p->val)
-            dfs(root->right,node,p);
-        else
-            dfs(root->left,root,p);
-    }
-    
-    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) 
-    {
-        ans = NULL;
-        dfs(root,NULL,p);
-        return ans;
+        return succ;
     }
 };
