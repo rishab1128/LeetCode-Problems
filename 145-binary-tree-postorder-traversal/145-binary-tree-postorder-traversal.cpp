@@ -11,6 +11,8 @@
  */
 //Postorder -> LRV
 //Iterative using only 1 stack
+//TC : O(2*n)
+//SC : O(n)
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) 
