@@ -10,7 +10,7 @@
  * };
  */
 //Postorder -> LRV
-//Iterative using 2 stacks
+//Iterative using only 1 stack
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) 
@@ -19,23 +19,35 @@ public:
             return {};
         
         vector<int>ans;
-        stack<TreeNode*>st1 , st2;
-        st1.push(root);
-        while(!st1.empty())
+        stack<TreeNode*>st;
+        TreeNode*curr = root;
+        while(curr!=NULL || !st.empty())
         {
-            root = st1.top();
-            st1.pop();
-            st2.push(root);
-            if(root->left)
-                st1.push(root->left);
-            if(root->right)
-                st1.push(root->right);
+            if(curr!=NULL)
+            {
+                st.push(curr);
+                curr = curr->left;
+            }
+            else
+            {
+                TreeNode*tmp = st.top()->right;
+                if(tmp==NULL)
+                {
+                    tmp = st.top();
+                    st.pop();
+                    ans.push_back(tmp->val);
+                    while(st.size() and tmp==st.top()->right)
+                    {
+                        tmp = st.top();
+                        st.pop();
+                        ans.push_back(tmp->val);
+                    }
+                }
+                else
+                    curr = tmp;
+            }
         }
-        while(!st2.empty())
-        {
-            ans.push_back(st2.top()->val);
-            st2.pop();
-        }
+        
         return ans;
         
     }
