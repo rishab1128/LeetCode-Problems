@@ -18,6 +18,24 @@ public:
         return dp[i][j] = ans;
     }
     
+    int bottomUpDP(vector<int>&arr)
+    {
+        int n = arr.size();
+        vector<vector<int>>dp(n,vector<int>(n,0));
+        for(int i=n-1; i>=0; i--)
+        {
+            for(int j=i+1; j<n; j++)
+            {
+                for(int k=i+1; k<j; k++)
+                {
+                    int calc = arr[i]*arr[k]*arr[j];
+                    dp[i][j] = max(dp[i][j] , calc+dp[i][k]+dp[k][j]);
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+    
     int maxCoins(vector<int>& arr) 
     {
         arr.insert(arr.begin(),1);
@@ -26,8 +44,10 @@ public:
         
         int n = arr.size();
         vector<vector<int>>dp(n,vector<int>(n,-1));
-        int ans = recur(arr,0,n-1,dp);
-        return ans;
+        int ans1 = recur(arr,0,n-1,dp);
+        
+        int ans2 = bottomUpDP(arr);
+        return ans2;
         
     }
 };
