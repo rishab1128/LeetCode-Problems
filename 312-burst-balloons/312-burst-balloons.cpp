@@ -42,9 +42,9 @@ public:
         arr.push_back(1);
         
         
-        int n = arr.size();
-        vector<vector<int>>dp(n,vector<int>(n,-1));
-        int ans1 = recur(arr,0,n-1,dp);
+        // int n = arr.size();
+        // vector<vector<int>>dp(n,vector<int>(n,-1));
+        // int ans1 = recur(arr,0,n-1,dp);
         
         int ans2 = bottomUpDP(arr);
         return ans2;
