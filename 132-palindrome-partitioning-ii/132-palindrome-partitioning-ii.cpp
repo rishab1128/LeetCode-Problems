@@ -33,10 +33,10 @@ public:
         dp[0]=0;
         for(int i=1; i<n; i++)
         {
-            string str="";
+            // string str="";
             for(int j=i; j>=0; j--)
             {
-                str+=s[j];
+                // str+=s[j];
                 if(dp2[j][i])
                     dp[i]= j-1>=0 ? min(dp[i],dp[j-1]+1) : 0;
             }
