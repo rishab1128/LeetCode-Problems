@@ -1,26 +1,24 @@
 class Solution {
 public:
     vector<vector<int>>ans;
-    void recur(vector<int>&arr, int target, int idx, vector<int>res, int sum)
+    void recur(vector<int>&arr, int idx, int sum, int target , vector<int>path)
     {
-        if(idx==(int)arr.size() || sum>target)
+        if(sum>target || idx==arr.size())
             return;
-        
         if(sum==target)
         {
-            ans.push_back(res);
+            ans.push_back(path);
             return;
         }
-        res.push_back(arr[idx]);
-        recur(arr,target,idx,res,sum+arr[idx]);
-        res.pop_back();
-        recur(arr,target,idx+1,res,sum);
+        path.push_back(arr[idx]);
+        recur(arr,idx,sum+arr[idx],target,path);
+        path.pop_back();
+        recur(arr,idx+1,sum,target,path);
     }
     
     vector<vector<int>> combinationSum(vector<int>& arr, int target) 
     {
-        ans.clear();
-        recur(arr,target,0,{},0);
+        recur(arr,0,0,target,{});
         return ans;
     }
 };
