@@ -1,12 +1,11 @@
 class Solution {
 public:
+    
     vector<vector<string>>ans;
-    int n;
     
     bool isPalindrome(string s)
     {
-        int n=s.size();
-        int i=0,j=n-1;
+        int i=0,j=s.size()-1;
         while(i<=j)
         {
             if(s[i]!=s[j])
@@ -17,31 +16,30 @@ public:
         return true;
     }
     
-    void recur(string s, int idx, vector<string>res)
+    void recur(string s, int idx, vector<string>vec)
     {
-        if(idx==n)
+        if(idx==s.size())
         {
-            ans.push_back(res);
+            ans.push_back(vec);
             return;
         }
-        
-        for(int i=idx; i<n; i++)
+        string t="";
+        for(int i=idx; i<s.size(); i++)
         {
-            string str = s.substr(idx,i-idx+1);
-            if(isPalindrome(str))
+            t+=s[i];
+            if(isPalindrome(t))
             {
-                res.push_back(str);
-                recur(s,i+1,res);
-                res.pop_back();
+                vec.push_back(t);
+                recur(s,i+1,vec);
+                vec.pop_back();
             }
         }
     }
     
     vector<vector<string>> partition(string s) 
     {
-        n=s.size();
-        ans.clear();
-        recur(s,0,{});
+        vector<string>vec;
+        recur(s,0,vec);
         return ans;
     }
 };
