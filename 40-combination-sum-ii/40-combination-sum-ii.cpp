@@ -1,35 +1,30 @@
 class Solution {
 public:
-    
     vector<vector<int>>ans;
-    int n;
     
-    void recur(vector<int>&arr, int target, int idx, vector<int>res)
+    void recur(vector<int>&arr, int target, int idx, int sum, vector<int>tmp)
     {
-        if((target<0)||(idx==n and target>0))
+        if(sum>target || idx>arr.size())
             return;
-        
-        if(target==0)
+        if(sum==target)
         {
-            ans.push_back(res);
+            ans.push_back(tmp);
             return;
         }
-        
-        for(int i=idx; i<n; i++)
+        for(int i=idx; i<arr.size(); i++)
         {
             if(i!=idx and arr[i]==arr[i-1])
                 continue;
-            res.push_back(arr[i]);
-            recur(arr,target-arr[i],i+1,res);
-            res.pop_back();
+            tmp.push_back(arr[i]);
+            recur(arr,target,i+1,sum+arr[i],tmp);
+            tmp.pop_back();
         }
     }
     
-    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
-        n=arr.size();
-        ans.clear();
+    vector<vector<int>> combinationSum2(vector<int>& arr, int target) 
+    {
         sort(arr.begin(),arr.end());
-        recur(arr,target,0,{});
+        recur(arr,target,0,0,{});
         return ans;
     }
 };
