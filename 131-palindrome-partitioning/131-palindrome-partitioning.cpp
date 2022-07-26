@@ -5,15 +5,9 @@ public:
     
     bool isPalindrome(string&s)
     {
-        int i=0,j=s.size()-1;
-        while(i<=j)
-        {
-            if(s[i]!=s[j])
-                return false;
-            i++;
-            j--;
-        }
-        return true;
+        string t = s;
+        reverse(t.begin(),t.end());
+        return t==s;
     }
     
     void recur(string& s, int idx, vector<string>&vec)
