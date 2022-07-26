@@ -16,7 +16,7 @@ public:
         return true;
     }
     
-    void recur(string s, int idx, vector<string>vec)
+    void recur(string s, int idx, vector<string>&vec)
     {
         if(idx==s.size())
         {
