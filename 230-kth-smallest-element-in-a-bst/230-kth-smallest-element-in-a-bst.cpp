@@ -13,16 +13,23 @@ class Solution {
 public:
     void inorder(TreeNode*root, int& ct, int k, int& ans)
     {
-        if(root)
+        stack<TreeNode*>st;
+        while(root || st.size())
         {
-            inorder(root->left,ct,k,ans);
+            while(root)
+            {
+                st.push(root);
+                root = root->left;
+            }
+            root = st.top();
+            st.pop();
             ct++;
             if(ct==k)
             {
                 ans = root->val;
                 return;
             }
-            inorder(root->right,ct,k,ans);
+            root = root->right;
         }
     }
     
