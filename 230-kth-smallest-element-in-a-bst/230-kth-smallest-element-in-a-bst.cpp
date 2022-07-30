@@ -11,23 +11,25 @@
  */
 class Solution {
 public:
-    Solution()
-    {
-        std::ios::sync_with_stdio(false);
-    }
-    void inorder(TreeNode* root, vector<int>&v)
+    void inorder(TreeNode*root, int& ct, int k, int& ans)
     {
         if(root)
         {
-            inorder(root->left,v);
-            v.push_back(root->val);
-            inorder(root->right,v);
+            inorder(root->left,ct,k,ans);
+            ct++;
+            if(ct==k)
+            {
+                ans = root->val;
+                return;
+            }
+            inorder(root->right,ct,k,ans);
         }
     }
+    
     int kthSmallest(TreeNode* root, int k) 
     {
-        vector<int>v;
-        inorder(root,v);
-        return v[k-1];
+        int ans = -1 , ct = 0;
+        inorder(root,ct,k,ans);
+        return ans;
     }
 };
