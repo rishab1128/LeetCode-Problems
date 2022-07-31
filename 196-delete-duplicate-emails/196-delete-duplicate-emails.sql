@@ -1,4 +1,1 @@
-DELETE p1 FROM Person p1,
-    Person p2
-WHERE
-    p1.Email = p2.Email AND p1.Id > p2.Id
+DELETE from Person where id not in (SELECT * from (SELECT min(id) FROM Person GROUP BY email) as tmp);
