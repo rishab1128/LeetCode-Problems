@@ -11,6 +11,8 @@
  */
 class Solution {
 public:
+    //TC : O(n)
+    //SC : O(n)
     unordered_set<int>st;
     bool findTarget(TreeNode* root, int k) 
     {
