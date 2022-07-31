@@ -9,6 +9,10 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+//SC : O(H) , H = height of the BST
+//TC : O(1)
+    
 class BSTIterator {
 private:stack<TreeNode*>st;
         void pushIntoStack(TreeNode*root)
