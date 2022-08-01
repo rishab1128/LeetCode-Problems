@@ -18,32 +18,30 @@ public:
 
 class Solution {
 public:
+    
+    void recur(Node* &node1 , Node* &node2)
+    {
+        if(!node1 || !node2)
+            return;
+        node1->next = node2;
+        recur(node1->left,node1->right);
+        recur(node1->right,node2->left);
+        recur(node2->left,node2->right);
+    }
+    
     Node* connect(Node* root) 
     {
         if(!root)
             return root;
-        queue<Node*>q;
-        q.push(root);
-        while(!q.empty())
+        
+        if(root and !root->left and !root->right)
         {
-            int sz = q.size() , ct = sz;
-            for(int i=0; i<sz; i++)
-            {
-                auto node = q.front();
-                q.pop();
-                ct--;
-                if(ct)
-                    node->next = q.front();
-                else
-                    node->next = NULL;
-                
-                if(node->left)
-                    q.push(node->left);
-                
-                if(node->right)
-                    q.push(node->right);
-            }
+            root->next = NULL;
+            return root;
         }
+        
+        recur(root->left,root->right);
+        
         return root;
         
     }
