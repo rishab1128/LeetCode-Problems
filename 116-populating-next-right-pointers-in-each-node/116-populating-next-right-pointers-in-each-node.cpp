@@ -18,31 +18,20 @@ public:
 
 class Solution {
 public:
-    
-    void recur(Node* &node1 , Node* &node2)
+    void help(Node*curr , Node*next)
     {
-        if(!node1 || !node2)
+        if(!curr)
             return;
-        node1->next = node2;
-        recur(node1->left,node1->right);
-        recur(node1->right,node2->left);
-        recur(node2->left,node2->right);
+        curr->next=next;
+        help(curr->left,curr->right);
+        help(curr->right, curr->next==NULL ? NULL : curr->next->left);
     }
     
-    Node* connect(Node* root) 
+    Node* connect(Node* root)
     {
         if(!root)
             return root;
-        
-        if(root and !root->left and !root->right)
-        {
-            root->next = NULL;
-            return root;
-        }
-        
-        recur(root->left,root->right);
-        
+        help(root,NULL);
         return root;
-        
     }
 };
