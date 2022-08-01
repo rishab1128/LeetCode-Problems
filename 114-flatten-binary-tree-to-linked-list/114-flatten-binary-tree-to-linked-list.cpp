@@ -11,32 +11,32 @@
  */
 class Solution {
 public:
-    TreeNode* recur(TreeNode*root)
+    
+    TreeNode*recur(TreeNode*root)
     {
         if(!root)
             return NULL;
         
-         
         TreeNode* lt = recur(root->left);
         TreeNode* rt = recur(root->right);
         
         if(lt)
         {
             TreeNode*tmp = lt;
-            while(tmp and tmp->right!=NULL)
+            while(tmp and tmp->right)
                 tmp = tmp->right;
-        
+
             tmp->right = rt;
-            
+
             root->right = lt;
-            root->left  = NULL;
+            root->left = NULL;
         }
-    
-        return root;    
+        
+        
+        return root;
     }
     
-    void flatten(TreeNode* root) 
-    {
+    void flatten(TreeNode* root) {
         root = recur(root);
         return;
     }
