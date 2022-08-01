@@ -9,30 +9,36 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-//Preorder -> VLR
-//TC : O(N)
-//SC : O(N)
-
 class Solution {
 public:
     
-    TreeNode* recur(vector<int>&preorder, int& idx, int upperBound)
+    unordered_map<int,int>mp;
+    
+    TreeNode*recur(vector<int>&pre, int& idx, int left, int right)
     {
-       if(idx>=preorder.size() || preorder[idx]>upperBound)
-           return NULL;
+        if(left>right || idx>=pre.size())
+            return NULL;
         
-        TreeNode* root = new TreeNode(preorder[idx++]);
-        root->left = recur(preorder,idx,root->val);
-        root->right = recur(preorder,idx,upperBound);
+        int pos = mp[pre[idx]];
+        
+        TreeNode*root = new TreeNode(pre[idx++]);
+        root->left = recur(pre,idx,left,pos-1);
+        root->right = recur(pre,idx,pos+1,right);
+        
         return root;
-        
     }
     
     TreeNode* bstFromPreorder(vector<int>& preorder) 
     {
+        int n = preorder.size();
+        vector<int>inorder = preorder;
+        sort(inorder.begin(),inorder.end());
+        for(int i=0; i<n; i++)
+            mp[inorder[i]] = i;
+        
         int idx = 0;
-        TreeNode* ans = recur(preorder,idx,INT_MAX);
+        TreeNode*ans = recur(preorder,idx,0,n-1);
         return ans;
+        
     }
 };
