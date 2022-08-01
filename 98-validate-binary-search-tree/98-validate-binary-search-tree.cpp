@@ -11,25 +11,26 @@
  */
 class Solution {
 public:
+    
+    bool inorder(TreeNode*root, TreeNode*&prev)
+    {
+        if(!root)
+            return true;
+        
+        if(!inorder(root->left,prev))
+            return false;
+            
+        if(prev and prev->val>=root->val)
+            return false;
+            
+        prev = root;
+        
+        return inorder(root->right,prev);
+    }
+    
     bool isValidBST(TreeNode* root) 
     {
-        stack<TreeNode*>st;
         TreeNode*prev = NULL;
-        while(root || st.size())
-        {
-            while(root)
-            {
-                st.push(root);
-                root = root->left;
-            }
-            root = st.top();
-            st.pop();
-            if(prev and prev->val>=root->val)
-                return false;
-            prev = root;
-            root = root->right;
-        }
-        return true;
-        
+        return inorder(root,prev);
     }
 };
