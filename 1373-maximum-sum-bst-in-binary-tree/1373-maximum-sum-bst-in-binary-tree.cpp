@@ -9,6 +9,9 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+//TC : O(N) , where N = number of nodes in the Binary Tree
+//SC : O(N)
 struct Node
 {
     int maxi,mini,sum;
