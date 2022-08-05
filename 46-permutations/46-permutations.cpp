@@ -1,32 +1,26 @@
-//Approach 1 - TC : O(n*n!) SC : O(N) (using map) -> ignoring recursion stack
+//Approach 1 - TC : O(n*n!) SC : O(N) (only for recursion stack) - no extra space(for map) like prev approach
 class Solution {
 public:
     
-    void recur(vector<int>&arr, vector<int>tmp, unordered_map<int,int>&mp , vector<vector<int>>&ans)
+    void recur(vector<int>arr, int idx, vector<vector<int>>&ans)
     {
-        if(tmp.size()==arr.size())
+        if(idx==arr.size()-1)
         {
-            ans.push_back(tmp);
+            ans.push_back(arr);
             return;
         }
-        for(int i=0; i<arr.size(); i++)
+        for(int i=idx; i<arr.size(); i++)
         {
-            if(!mp[i])
-            {
-                mp[i] = 1;
-                tmp.push_back(arr[i]);
-                recur(arr,tmp,mp,ans);
-                mp[i] = 0;
-                tmp.pop_back();
-            }
+            swap(arr[idx],arr[i]);
+            recur(arr,idx+1,ans);
+            swap(arr[idx],arr[i]);
         }
     }
     
     vector<vector<int>> permute(vector<int>& arr) 
     {
         vector<vector<int>>ans;
-        unordered_map<int,int>mp;
-        recur(arr,{},mp,ans);
+        recur(arr,0,ans);
         return ans;
     }
 };
