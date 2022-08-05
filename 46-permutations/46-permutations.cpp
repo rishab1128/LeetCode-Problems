@@ -1,4 +1,4 @@
-//Approach 1 - TC : O(n!) SC : O(N) (using map) -> ignoring recursion stack
+//Approach 1 - TC : O(n*n!) SC : O(N) (using map) -> ignoring recursion stack
 class Solution {
 public:
     
