@@ -1,7 +1,12 @@
+//TC : O(N*log(K))
+//SC : O(N+K)
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) 
     {
+        if(k==nums.size())
+            return nums;
+        
         unordered_map<int,int>mp;
         for(auto x: nums)
             mp[x]++;
