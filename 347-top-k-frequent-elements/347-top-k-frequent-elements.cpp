@@ -16,6 +16,7 @@ public:
         };
         
         priority_queue<int, vector<int> , decltype(cmp)>pq(cmp);
+        //pq.top() -> stores ele with the smallest freq
         
         for(auto [ele,freq]: mp)
         {
