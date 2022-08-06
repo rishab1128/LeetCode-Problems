@@ -1,60 +1,58 @@
 class Solution {
-  public:
-    bool isSafe1(int row, int col, vector < string > board, int n) {
-      // check upper element
-      int duprow = row;
-      int dupcol = col;
-
-      while (row >= 0 && col >= 0) {
-        if (board[row][col] == 'Q')
-          return false;
-        row--;
-        col--;
-      }
-
-      col = dupcol;
-      row = duprow;
-      while (col >= 0) {
-        if (board[row][col] == 'Q')
-          return false;
-        col--;
-      }
-
-      row = duprow;
-      col = dupcol;
-      while (row < n && col >= 0) {
-        if (board[row][col] == 'Q')
-          return false;
-        row++;
-        col--;
-      }
-      return true;
-    }
-
-  public:
-    void solve(int col, vector < string > & board, vector < vector < string >> & ans, int n) {
-      if (col == n) {
-        ans.push_back(board);
-        return;
-      }
-      for (int row = 0; row < n; row++) {
-        if (isSafe1(row, col, board, n)) {
-          board[row][col] = 'Q';
-          solve(col + 1, board, ans, n);
-          board[row][col] = '.';
+public:
+    
+    bool isPossible(vector<string>&board, int row, int col, int n)
+    {
+        //Check upper col
+        for(int i=row-1; i>=0; i--)
+        {
+            if(board[i][col]=='Q')
+                return false;
         }
-      }
+        
+        //Check upper left diag
+        for(int i=row-1 ,  j = col-1 ; i>=0 and j>=0 ; i--,j--)
+        {
+            if(board[i][j]=='Q')
+                return false;
+        }
+        
+        //Check upper right diag
+        for(int i=row-1 ,  j = col+1 ; i>=0 and j<n ; i--,j++)
+        {
+            if(board[i][j]=='Q')
+                return false;
+        }
+        
+        return true;
     }
-
-  public:
-    vector < vector < string >> solveNQueens(int n) {
-      vector < vector < string >> ans;
-      vector < string > board(n);
-      string s(n, '.');
-      for (int i = 0; i < n; i++) {
-        board[i] = s;
-      }
-      solve(0, board, ans, n);
-      return ans;
+    
+    void recur(vector<vector<string>>&ans, vector<string>&board, int row, int n)
+    {
+        if(row==n)
+        {
+            ans.push_back(board);
+            return;
+        }
+        for(int col=0; col<n; col++)
+        {
+            if(isPossible(board,row,col,n))
+            {
+                board[row][col] = 'Q';
+                recur(ans,board,row+1,n);
+                board[row][col] = '.';
+            }
+        }
+    }
+    
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector<vector<string>>ans;
+        string s(n,'.');
+        vector<string>board(n,s);
+        
+        recur(ans,board,0,n);
+        
+        return ans;
     }
 };
