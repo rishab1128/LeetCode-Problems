@@ -1,33 +1,6 @@
 class Solution {
 public:
-    
-    bool isPossible(vector<string>&board, int row, int col, int n)
-    {
-        //Check upper col
-        for(int i=row-1; i>=0; i--)
-        {
-            if(board[i][col]=='Q')
-                return false;
-        }
-        
-        //Check upper left diag
-        for(int i=row-1 ,  j = col-1 ; i>=0 and j>=0 ; i--,j--)
-        {
-            if(board[i][j]=='Q')
-                return false;
-        }
-        
-        //Check upper right diag
-        for(int i=row-1 ,  j = col+1 ; i>=0 and j<n ; i--,j++)
-        {
-            if(board[i][j]=='Q')
-                return false;
-        }
-        
-        return true;
-    }
-    
-    void recur(vector<vector<string>>&ans, vector<string>&board, int row, int n)
+    void recur(vector<vector<string>>&ans, vector<string>&board, vector<bool>&up , vector<bool>&upperLeftDiag, vector<bool>&upperRightDiag, int row, int n)
     {
         if(row==n)
         {
@@ -36,11 +9,19 @@ public:
         }
         for(int col=0; col<n; col++)
         {
-            if(isPossible(board,row,col,n))
+            if(!up[col] and !upperLeftDiag[n-1+col-row] and !upperRightDiag[col+row])
             {
                 board[row][col] = 'Q';
-                recur(ans,board,row+1,n);
+                up[col] = 1;
+                upperLeftDiag[n-1+col-row] = 1;
+                upperRightDiag[col+row] = 1;
+                
+                recur(ans,board,up,upperLeftDiag,upperRightDiag,row+1,n);
+                
                 board[row][col] = '.';
+                up[col] = 0;
+                upperLeftDiag[n-1+col-row] = 0;
+                upperRightDiag[col+row] = 0;
             }
         }
     }
@@ -51,7 +32,9 @@ public:
         string s(n,'.');
         vector<string>board(n,s);
         
-        recur(ans,board,0,n);
+        vector<bool>up(n,0) , upperLeftDiag(2*n-1,0) , upperRightDiag(2*n-1,0);
+        
+        recur(ans,board,up,upperLeftDiag,upperRightDiag,0,n);
         
         return ans;
     }
