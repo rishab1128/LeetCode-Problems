@@ -3,23 +3,32 @@ public:
     int lengthOfLongestSubstring(string s) 
     {
         int n = s.size();
-        unordered_map<char,int>mp;
-        int left = 0 , right = 0 , ans = 0 ;
+        vector<int>freq(128,0);
+        int left = 0 , right = 0 , ans = 0 , len = 0 ;
         while(right<n)
         {
-            if(!mp.count(s[right]))
-                mp[s[right]]++;
+            int ascii = (int)s[right];
+            if(!freq[ascii]){
+                freq[ascii]++;
+                len++;
+            }
             else
             {
-                ans = max(ans,(int)mp.size());
-                while(left<=right and mp.count(s[right]))
-                    mp.erase(s[left++]);
-                mp[s[right]]++;
+                ans = max(ans,len);
+                while(left<=right and freq[ascii])
+                {
+                    int ascii2 = (int)s[left];
+                    freq[ascii2]--;
+                    left++;
+                    len--;
+                }
+                freq[ascii]++;
+                len++;
             }
             right++;
         }
         
-        ans = max(ans,(int)mp.size());
+        ans = max(ans,len);
         
         return ans;
         
