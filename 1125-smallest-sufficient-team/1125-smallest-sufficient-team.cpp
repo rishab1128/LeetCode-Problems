@@ -66,8 +66,8 @@ public:
         }
         
         // cout<<mp.size()<<endl;
-        // int ans = recur(0,0);
-        // cout<<ans<<endl;
+        int ans = recur(0,0);
+        cout<<ans<<endl;
         
         
         
