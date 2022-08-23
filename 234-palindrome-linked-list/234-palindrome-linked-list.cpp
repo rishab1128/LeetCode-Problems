@@ -13,43 +13,52 @@ public:
     
     ListNode*reverse(ListNode*head)
     {
-        ListNode*curr=head , *prev=NULL ,*front=NULL;
+        ListNode*curr = head , *prev = NULL , *next = NULL;
         while(curr)
         {
-            front = curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=front;
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
         return prev;
     }
     
+    ListNode*recurReverse(ListNode*head)
+    {
+        if(!head || !(head->next))
+            return head;
+        
+        ListNode*rem = recurReverse(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return rem;
+    }
+    
     bool isPalindrome(ListNode* head) 
     {
-        ListNode*node = head , *slow=head, *fast=head , *temp=NULL;
+        ListNode*slow = head , *fast = head;
         while(fast and fast->next)
         {
-            fast=fast->next->next;
-            slow=slow->next;
+            fast = fast->next->next;
+            slow = slow->next;
         }
-        temp=slow;
         
-        ListNode*rev=NULL;
-        // cout<<temp->val<<endl;
+        ListNode* mid = slow;
         
-        rev = reverse(temp);
+        ListNode*rev  = reverse(mid);
         
-        while(rev!=NULL)
+        ListNode*tmp = head;
+        while(rev)
         {
-            if(node->val==rev->val)
+            if(rev->val==tmp->val)
             {
-                node=node->next;
-                rev=rev->next;
+                rev = rev->next;
+                tmp = tmp->next;
             }
             else
                 return false;
         }
-        
         return true;
     }
 };
